@@ -103,7 +103,7 @@ class Controls
 
 		return result
 			|| _myGamepadJustPressed(gamepadBinds[key]) == true
-			|| hitboxJustPressed(mobileBinds[key]) == true
+			|| mobileCJustPressed(mobileBinds[key]) == true
 			|| touchPadJustPressed(mobileBinds[key]) == true;
 	}
 
@@ -114,7 +114,7 @@ class Controls
 
 		return result
 			|| _myGamepadPressed(gamepadBinds[key]) == true
-			|| hitboxPressed(mobileBinds[key]) == true
+			|| mobileCPressed(mobileBinds[key]) == true
 			|| touchPadPressed(mobileBinds[key]) == true;
 	}
 
@@ -125,7 +125,7 @@ class Controls
 
 		return result
 			|| _myGamepadJustReleased(gamepadBinds[key]) == true
-			|| hitboxJustReleased(mobileBinds[key]) == true
+			|| mobileCJustReleased(mobileBinds[key]) == true
 			|| touchPadJustReleased(mobileBinds[key]) == true;
 	}
 
@@ -178,7 +178,7 @@ class Controls
 
 	public var isInSubstate:Bool = false; // don't worry about this it becomes true and false on it's own in MusicBeatSubstate
 	public var requestedInstance(get, default):Dynamic; // is set to MusicBeatState or MusicBeatSubstate when the constructor is called
-	public var requestedHitbox(get, default):Hitbox; // for PlayState and EditorPlayState
+	public var requestedMobileC(get, default):IMobileControls; // for PlayState and EditorPlayState (hitbox and touchPad)
 	public var mobileC(get, never):Bool;
 
 	private function touchPadPressed(keys:Array<MobileInputID>):Bool
@@ -220,11 +220,15 @@ class Controls
 		return false;
 	}
 
-	private function hitboxPressed(keys:Array<MobileInputID>):Bool
+	private function mobileCPressed(keys:Array<MobileInputID>):Bool
 	{
-		if (keys != null && requestedHitbox != null)
+		if (keys != null && requestedMobileC != null)
 		{
+<<<<<<< HEAD
 			if (requestedHitbox.anyPressed(keys))
+=======
+			if (requestedMobileC.instance.anyPressed(keys))
+>>>>>>> parent of a7e9caa (murder MobileControls, make hitbox only at Playstate and apply patches from our psych port)
 			{
 				controllerMode = true;
 				return true;
@@ -233,11 +237,15 @@ class Controls
 		return false;
 	}
 
-	private function hitboxJustPressed(keys:Array<MobileInputID>):Bool
+	private function mobileCJustPressed(keys:Array<MobileInputID>):Bool
 	{
-		if (keys != null && requestedHitbox != null)
+		if (keys != null && requestedMobileC != null)
 		{
+<<<<<<< HEAD
 			if (requestedHitbox.anyJustPressed(keys))
+=======
+			if (requestedMobileC.instance.anyJustPressed(keys))
+>>>>>>> parent of a7e9caa (murder MobileControls, make hitbox only at Playstate and apply patches from our psych port)
 			{
 				controllerMode = true;
 				return true;
@@ -246,11 +254,15 @@ class Controls
 		return false;
 	}
 
-	private function hitboxJustReleased(keys:Array<MobileInputID>):Bool
+	private function mobileCJustReleased(keys:Array<MobileInputID>):Bool
 	{
-		if (keys != null && requestedHitbox != null)
+		if (keys != null && requestedMobileC != null)
 		{
+<<<<<<< HEAD
 			if (requestedHitbox.anyJustReleased(keys))
+=======
+			if (requestedMobileC.instance.anyJustReleased(keys))
+>>>>>>> parent of a7e9caa (murder MobileControls, make hitbox only at Playstate and apply patches from our psych port)
 			{
 				controllerMode = true;
 				return true;
@@ -269,9 +281,9 @@ class Controls
 	}
 
 	@:noCompletion
-	private function get_requestedHitbox():Hitbox
+	private function get_requestedMobileC():IMobileControls
 	{
-		return requestedInstance.hitbox;
+		return requestedInstance.mobileControls;
 	}
 
 	@:noCompletion
