@@ -27,7 +27,7 @@
     <img src="art/iconOG.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">P-Slice Engine MobileControls (now archived)</h3>
+<h3 align="center">P-Slice Engine MobileControls (old version)</h3>
 
   <p align="center">
     Crossover between Psych Engine and newer versions of FNF (also known as V-Slice)
