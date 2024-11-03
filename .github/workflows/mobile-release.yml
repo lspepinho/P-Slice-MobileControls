@@ -7,7 +7,7 @@ permissions:
 
 env:
   PROJECT_NAME: PSliceEngine
-  REPO_PATH: MobilePorting/P-Slice-Mobile
+  REPO_PATH: lspepinho/P-Slice-MobileControls
 
 jobs:
   get-commit-hash:
