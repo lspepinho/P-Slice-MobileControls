@@ -1,4 +1,4 @@
-name: Mobile + Release
+name: Legacy (Mobile + Release)
 on: workflow_dispatch
 
 permissions:
