@@ -27,6 +27,7 @@ class MobileOptionsSubState extends BaseOptionsMenu
 			'extraButtons', STRING, exControlTypes);
 		addOption(option);
 
+		#if TOUCH_CONTROLS_ALLOWED
 		option = new Option('Mobile Controls Opacity',
 			'Selects the opacity for the mobile buttons (carefull not to put it at 0 and loose track of your buttons).', 'controlsAlpha', PERCENT);
 		option.scrollSpeed = 1;
@@ -40,6 +41,7 @@ class MobileOptionsSubState extends BaseOptionsMenu
 			ClientPrefs.toggleVolumeKeys();
 		};
 		addOption(option);
+		#end
 
 		#if mobile
 		option = new Option('Allow Phone Screensaver',
