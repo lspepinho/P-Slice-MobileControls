@@ -146,10 +146,17 @@ class FunkinPreloader extends FlxBasePreloader
 
     // Background color.
     Lib.current.stage.color = 0xFF000000;
+    Lib.current.stage.frameRate = 30;
 
     // Width and height of the preloader.
     this._width = Lib.current.stage.stageWidth;
     this._height = Lib.current.stage.stageHeight;
+
+    // Tux icon!!!
+    #if linux
+		var icon = lime.graphics.Image.fromFile("icon.png");
+		Lib.current.stage.window.setIcon(icon);
+		#end
 
     // Scale assets to the screen size.
     ratio = this._width / BASE_WIDTH / 2.0;

@@ -12,7 +12,7 @@ import options.OptionsState;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '1.0'; // This is also used for Discord RPC
-	public static var pSliceVersion:String = '2.0.1'; 
+	public static var pSliceVersion:String = '2.1'; 
 	public static var funkinVersion:String = '0.5.1'; // Version of funkin' we are emulationg
 	public static var curSelected:Int = 0;
 
@@ -121,7 +121,9 @@ class MainMenuState extends MusicBeatState
 		#end
 		#end
 
+		#if TOUCH_CONTROLS_ALLOWED
 		addTouchPad('LEFT_FULL', 'A_B_E');
+		#end
 
 		super.create();
 
@@ -234,7 +236,7 @@ class MainMenuState extends MusicBeatState
 					}
 				}
 			}
-			if (touchPad.buttonE.justPressed || controls.justPressed('debug_1'))
+			if (#if TOUCH_CONTROLS_ALLOWED touchPad.buttonE.justPressed || #end controls.justPressed('debug_1'))
 			{
 				selectedSomethin = true;
 				FlxTransitionableState.skipNextTransIn = false;
