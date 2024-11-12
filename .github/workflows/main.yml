@@ -11,8 +11,8 @@ jobs:
   BuildDesktop:
     name: ${{ matrix.name }}
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         include:
           - name: Windows
             os: windows-2022
@@ -49,6 +49,7 @@ jobs:
   BuildMobile:
     name: ${{ matrix.name }}
     strategy:
+      fail-fast: false
       matrix:
         fail-fast: false
         include:
