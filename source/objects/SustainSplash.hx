@@ -17,8 +17,8 @@ class SustainSplash extends FlxSprite
 
 		frames = Paths.getSparrowAtlas('holdCovers/holdCover-' + ClientPrefs.data.holdSkin);
 
-		animation.addByPrefix('hold', 'hold', 24, true);
-		animation.addByPrefix('end', 'end', 24, false);
+		animation.addByPrefix('hold', 'holdCover0', 24, true);
+		animation.addByPrefix('end', 'holdCoverEnd0', 24, false);
 	}
 
 	override function update(elapsed)
@@ -46,7 +46,6 @@ class SustainSplash extends FlxSprite
 		final timeThingy:Float = (startCrochet * lengthToGet + (timeToGet - Conductor.songPosition + ClientPrefs.data.ratingOffset)) / playbackRate * .001;
 
 		var tailEnd:Note = !daNote.isSustainNote ? daNote.tail[daNote.tail.length - 1] : daNote.parent.tail[daNote.parent.tail.length - 1];
-        tailEnd.mustPress = daNote.mustPress;
 
 		animation.play('hold', true, false, 0);
 		animation.curAnim.frameRate = frameRate;
@@ -70,10 +69,10 @@ class SustainSplash extends FlxSprite
 		if (timer != null)
 			timer.cancel();
 
-		if ((!PlayState.instance.cpuControlled && tailEnd.mustPress) && ClientPrefs.data.holdSplashAlpha != 0)
+		if (!daNote.hitByOpponent && ClientPrefs.data.holdSplashAlpha != 0)
 			timer = new FlxTimer().start(timeThingy, (idk:FlxTimer) ->
 			{
-				if (!(daNote.isSustainNote ? daNote.parent.noteSplashData.disabled : daNote.noteSplashData.disabled))
+				if (!(daNote.isSustainNote ? daNote.parent.noteSplashData.disabled : daNote.noteSplashData.disabled) && animation != null)
 				{
 					alpha = ClientPrefs.data.holdSplashAlpha - (1 - strumNote.alpha);
 					animation.play('end', true, false, 0);

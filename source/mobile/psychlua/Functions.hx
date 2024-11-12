@@ -12,6 +12,7 @@ import mobile.backend.TouchUtil;
  * ...
  * @author: Karim Akra and Lily Ross (mcagabe19)
  */
+#if TOUCH_CONTROLS_ALLOWED
 class MobileFunctions
 {
 	public static function implement(funk:FunkinLua)
@@ -274,6 +275,7 @@ class MobileFunctions
 		}
 	}
 }
+#end
 
 #if android
 class AndroidFunctions

@@ -42,7 +42,7 @@ import mikolka.compatibility.FunkinPath as Paths;
 
 class CharSelectSubState extends MusicBeatState //MusicBeatSubState
 {
-  var cursor:FlxSprite;
+  var chrSelectCursor:FlxSprite;
   var modSelector:ModSelector;
 
   var cursorBlue:FlxSprite;
@@ -261,9 +261,9 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
     grpCursors = new FlxTypedGroup<FlxSprite>();
     add(grpCursors);
 
-    cursor = new FlxSprite(0, 0);
-    cursor.loadGraphic(Paths.image('charSelect/charSelector'));
-    cursor.color = 0xFFFFFF00;
+    chrSelectCursor = new FlxSprite(0, 0);
+    chrSelectCursor.loadGraphic(Paths.image('charSelect/charSelector'));
+    chrSelectCursor.color = 0xFFFFFF00;
 
     // FFCC00
 
@@ -294,9 +294,10 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
 
     grpCursors.add(cursorDarkBlue);
     grpCursors.add(cursorBlue);
-    grpCursors.add(cursor);
+    grpCursors.add(chrSelectCursor);
 
     //? P-Slice mods
+    #if MODS_ALLOWED
     var UICam = new FunkinCamera("special",0,0,FlxG.width,FlxG.height);
     UICam.bgColor = 0x00FFFFFF;
     FlxG.cameras.add(UICam,false);
@@ -306,6 +307,7 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
 
     modSelector.y +=80;
     FlxTween.tween(modSelector, {y: modSelector.y - 80}, 1.3, {ease: FlxEase.expoOut});
+    #end
     //?
 
     selectSound = FunkinSound.load(Paths.sound('CS_select'),0.7); //? fix loaders
@@ -359,13 +361,13 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
       FlxTween.tween(member, {y: member.y - 300}, 1, {ease: FlxEase.expoOut});
     }
 
-    cursor.scrollFactor.set();
+    chrSelectCursor.scrollFactor.set();
     cursorBlue.scrollFactor.set();
     cursorDarkBlue.scrollFactor.set();
 
-    FlxTween.color(cursor, 0.2, 0xFFFFFF00, 0xFFFFCC00, {type: PINGPONG});
+    FlxTween.color(chrSelectCursor, 0.2, 0xFFFFFF00, 0xFFFFCC00, {type: PINGPONG});
 
-    // FlxG.debugger.track(cursor);
+    // FlxG.debugger.track(chrSelectCursor);
 
     FlxG.debugger.addTrackerProfile(new TrackerProfile(CharSelectSubState, ["curChar", "grpXSpread", "grpYSpread"]));
     FlxG.debugger.track(this);
@@ -437,8 +439,10 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
       Save.instance.oldChar = true;
     });
 
+    #if TOUCH_CONTROLS_ALLOWED
     addTouchPad('LEFT_FULL', 'A_B');
     addTouchPadCamera();
+    #end
   }
 
   function checkNewChar():Void
@@ -673,11 +677,12 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
     allowInput = false;
     autoFollow = false; //! Add mod support
     //? P-Slice mods
-    VsliceOptions.LAST_MOD = {mod_dir: modSelector.curMod,char_name: curChar}; //? save selected character
-
+    VsliceOptions.LAST_MOD = {mod_dir: modSelector?.curMod ?? "",char_name: curChar}; //? save selected character
+    #if MODS_ALLOWED
     FlxTween.tween(modSelector, {y: modSelector.y + 80}, 0.8, {ease: FlxEase.backIn});
+    #end
     //?
-    FlxTween.tween(cursor, {alpha: 0}, 0.8, {ease: FlxEase.expoOut});
+    FlxTween.tween(chrSelectCursor, {alpha: 0}, 0.8, {ease: FlxEase.expoOut});
     FlxTween.tween(cursorBlue, {alpha: 0}, 0.8, {ease: FlxEase.expoOut});
     FlxTween.tween(cursorDarkBlue, {alpha: 0}, 0.8, {ease: FlxEase.expoOut});
     FlxTween.tween(cursorConfirmed, {alpha: 0}, 0.8, {ease: FlxEase.expoOut});
@@ -709,7 +714,9 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
             ));
         }
       });
+    #if TOUCH_CONTROLS_ALLOWED
     FlxTween.tween(touchPad, {alpha: 0}, 0.8, {ease: FlxEase.expoOut});
+    #end
   }
 
   var holdTmrUp:Float = 0;
@@ -809,12 +816,12 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
     if (cursorX < -1)
     {
       cursorX = 1;
-      modSelector.changeDirectory(-1);
+      modSelector?.changeDirectory(-1);
     }
     if (cursorX > 1)
     {
       cursorX = -1;
-      modSelector.changeDirectory(1);
+      modSelector?.changeDirectory(1);
     }
     if (cursorY < -1)
     {
@@ -837,8 +844,8 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
       if (allowInput && !pressedSelect && controls.ACCEPT)
       {
         cursorConfirmed.visible = true;
-        cursorConfirmed.x = cursor.x - 2;
-        cursorConfirmed.y = cursor.y - 4;
+        cursorConfirmed.x = chrSelectCursor.x - 2;
+        cursorConfirmed.y = chrSelectCursor.y - 4;
         cursorConfirmed.animation.play("idle", true);
 
         grpCursors.visible = false;
@@ -895,8 +902,8 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
       if (allowInput && controls.ACCEPT)
       {
         cursorDenied.visible = true;
-        cursorDenied.x = cursor.x - 2;
-        cursorDenied.y = cursor.y - 4;
+        cursorDenied.x = chrSelectCursor.x - 2;
+        cursorDenied.y = chrSelectCursor.y - 4;
 
         playerChill.playAnimation("cannot select Label", true);
 
@@ -918,17 +925,17 @@ class CharSelectSubState extends MusicBeatState //MusicBeatSubState
       camFollow.y += cursorY * 10;
     }
 
-    cursorLocIntended.x = (cursorFactor * cursorX) + (FlxG.width / 2) - cursor.width / 2;
-    cursorLocIntended.y = (cursorFactor * cursorY) + (FlxG.height / 2) - cursor.height / 2;
+    cursorLocIntended.x = (cursorFactor * cursorX) + (FlxG.width / 2) - chrSelectCursor.width / 2;
+    cursorLocIntended.y = (cursorFactor * cursorY) + (FlxG.height / 2) - chrSelectCursor.height / 2;
 
     cursorLocIntended.x += cursorOffsetX;
     cursorLocIntended.y += cursorOffsetY;
 
-    cursor.x = MathUtil.coolLerp(cursor.x, cursorLocIntended.x, lerpAmnt,false); //? disable wobbling here
-    cursor.y = MathUtil.coolLerp(cursor.y, cursorLocIntended.y, lerpAmnt,false);
+    chrSelectCursor.x = MathUtil.coolLerp(chrSelectCursor.x, cursorLocIntended.x, lerpAmnt,false); //? disable wobbling here
+    chrSelectCursor.y = MathUtil.coolLerp(chrSelectCursor.y, cursorLocIntended.y, lerpAmnt,false);
 
-    cursorBlue.x = MathUtil.coolLerp(cursorBlue.x, cursor.x, lerpAmnt * 0.4,false);
-    cursorBlue.y = MathUtil.coolLerp(cursorBlue.y, cursor.y, lerpAmnt * 0.4,false);
+    cursorBlue.x = MathUtil.coolLerp(cursorBlue.x, chrSelectCursor.x, lerpAmnt * 0.4,false);
+    cursorBlue.y = MathUtil.coolLerp(cursorBlue.y, chrSelectCursor.y, lerpAmnt * 0.4,false);
     //! buggy code
     cursorDarkBlue.x = MathUtil.coolLerp(cursorDarkBlue.x, cursorLocIntended.x, lerpAmnt * 0.2,false);
     cursorDarkBlue.y = MathUtil.coolLerp(cursorDarkBlue.y, cursorLocIntended.y, lerpAmnt * 0.2,false);

@@ -1571,6 +1571,7 @@ class FunkinLua {
 		CustomSubstate.implement(this);
 		ShaderFunctions.implement(this);
 		DeprecatedFunctions.implement(this);
+		#if TOUCH_CONTROLS_ALLOWED
 		MobileFunctions.implement(this);
 		#if android AndroidFunctions.implement(this); #end
 
