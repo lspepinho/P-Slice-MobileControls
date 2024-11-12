@@ -747,7 +747,6 @@ class FreeplayState extends MusicBeatSubstate
 			rankCamera.fade(0xFF000000, 0, false, null, true);
 		}
 
-		#if TOUCH_CONTROLS_ALLOWED
 		addTouchPad('UP_DOWN', 'A_B_F');
 		addTouchPadCamera();
 		if (prepForNewRank)
@@ -772,7 +771,6 @@ class FreeplayState extends MusicBeatSubstate
 				}
 			});
 		}
-		#end
 
 		if (fromCharSelect == true)
 		{
@@ -1179,9 +1177,7 @@ class FreeplayState extends MusicBeatSubstate
 
 			rankCamera.zoom = 0.8;
 			funnyCam.zoom = 0.8;
-			#if TOUCH_CONTROLS_ALLOWED
 			IntervalShake.shake(touchPad, 0.6, 1 / 24, 0.24, 0, FlxEase.quadOut);
-			#end
 			FlxTween.tween(rankCamera, {"zoom": 1}, 1, {ease: FlxEase.elasticOut});
 			FlxTween.tween(funnyCam, {"zoom": 1}, 0.8, {ease: FlxEase.elasticOut});
 
@@ -1273,12 +1269,9 @@ class FreeplayState extends MusicBeatSubstate
 	{
 		super.closeSubState();
 		controls.isInSubstate = true;
-
-		#if TOUCH_CONTROLS_ALLOWED
 		removeTouchPad();
 		addTouchPad('UP_DOWN', 'A_B_F');
 		addTouchPadCamera();
-		#end
 	}
 
 	function tryOpenCharSelect():Void
@@ -1367,9 +1360,7 @@ class FreeplayState extends MusicBeatSubstate
 				FlxTween.tween(spr, {y: moveDataY + spr.y}, moveDataSpeed, {ease: FlxEase.backIn});
 			}
 		}
-		#if TOUCH_CONTROLS_ALLOWED
 		FlxTween.tween(touchPad, {alpha: 0}, 0.6, {ease: FlxEase.backIn});
-		#end
 		backingCard?.enterCharSel();
 	}
 
@@ -1438,10 +1429,9 @@ class FreeplayState extends MusicBeatSubstate
 					}
 				});
 			}
-			#if TOUCH_CONTROLS_ALLOWED
+
 			touchPad.alpha = 0;
 			FlxTween.tween(touchPad, {alpha: ClientPrefs.data.controlsAlpha}, 0.8, {ease: FlxEase.backIn});
-			#end
 		}
 	}
 
@@ -1728,7 +1718,6 @@ class FreeplayState extends MusicBeatSubstate
 			// FlxTween.color(bgDad, 0.33, 0xFFFFFFFF, 0xFF555555, {ease: FlxEase.quadOut});
 			backingCard?.disappear();
 
-			#if TOUCH_CONTROLS_ALLOWED
 			touchPad.forEachAlive(function(button:TouchButton)
 			{
 				if (button.tag == 'UP' || button.tag == 'DOWN')
@@ -1736,7 +1725,6 @@ class FreeplayState extends MusicBeatSubstate
 				else
 					FlxTween.tween(button, {x: button.x + 450}, 1.2, {ease: FlxEase.backOut});
 			});
-			#end
 
 			for (grpSpr in exitMovers.keys())
 			{

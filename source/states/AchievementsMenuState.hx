@@ -122,9 +122,7 @@ class AchievementsMenuState extends MusicBeatState
 		
 		_changeSelection();
 
-		#if TOUCH_CONTROLS_ALLOWED
 		addTouchPad('LEFT_FULL', 'B_C');
-		#end
 
 		super.create();
 		
@@ -132,13 +130,11 @@ class AchievementsMenuState extends MusicBeatState
 		FlxG.camera.scroll.y = -FlxG.height;
 	}
 
-	#if TOUCH_CONTROLS_ALLOWED
 	override function closeSubState() {
 		super.closeSubState();
 		removeTouchPad();
 		addTouchPad('LEFT_FULL', 'B_C');
 	}
-	#end
 
 	function makeAchievement(achievement:String, data:Achievement, unlocked:Bool, mod:String = null)
 	{
@@ -209,17 +205,12 @@ class AchievementsMenuState extends MusicBeatState
 					_changeSelection();
 				}
 			}
-
-			#if TOUCH_CONTROLS_ALLOWED
+			
 			if(MusicBeatState.getState().touchPad.buttonC.justPressed || controls.RESET && (options[curSelected].unlocked || options[curSelected].curProgress > 0))
 			{
 				removeTouchPad();
 				openSubState(new ResetAchievementSubstate());
 			}
-			#else
-			if(controls.RESET && (options[curSelected].unlocked || options[curSelected].curProgress > 0)) 
-				openSubState(new ResetAchievementSubstate());	
-			#end
 		}
 
 		if (controls.BACK) {
@@ -312,9 +303,7 @@ class ResetAchievementSubstate extends MusicBeatSubstate
 		add(noText);
 		updateOptions();
 
-		#if TOUCH_CONTROLS_ALLOWED
 		addTouchPad('LEFT_RIGHT', 'A');
-		#end
 	}
 
 	override function update(elapsed:Float)

@@ -273,9 +273,7 @@ class PlayState extends MusicBeatState
 
 	public static var nextReloadAll:Bool = false;
 
-	#if TOUCH_CONTROLS_ALLOWED
 	public var luaTouchPad:TouchPad;
-	#end
 
 	override public function create()
 	{
@@ -410,7 +408,6 @@ class PlayState extends MusicBeatState
 			case 'phillyTrainErect': new PhillyTrainErect();  		//Week 3 Special 
 			case 'limoRideErect': new LimoRideErect();  			//Week 4 Special 
 			case 'mallXmasErect': new MallXmasErect(); 				//Week 5 Special 
-			case 'phillyStreetsErect': new PhillyStreetsErect(); 	//Weekend 1 Special 
 		}
 		if(isPixelStage) introSoundsSuffix = '-pixel';
 
@@ -677,10 +674,10 @@ class PlayState extends MusicBeatState
 
 		SustainSplash.startCrochet = Conductor.stepCrochet;
 		SustainSplash.frameRate = Math.floor(24 / 100 * SONG.bpm);
-		var holdSplash:SustainSplash = new SustainSplash();
-		holdSplash.alpha = 0.0001;
+		var splash:SustainSplash = new SustainSplash();
+		splash.alpha = 0.0001;
 
-		#if (!android && TOUCH_CONTROLS_ALLOWED)
+		#if !android
 		addTouchPad('NONE', 'P');
 		addTouchPadCamera();
 		#end
@@ -3939,7 +3936,6 @@ class PlayState extends MusicBeatState
 	}
 	#end
 
-	#if TOUCH_CONTROLS_ALLOWED
 	public function makeLuaTouchPad(DPadMode:String, ActionMode:String) {
 		if(members.contains(luaTouchPad)) return;
 
