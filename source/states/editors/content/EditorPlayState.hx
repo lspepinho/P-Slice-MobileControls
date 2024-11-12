@@ -157,7 +157,6 @@ class EditorPlayState extends MusicBeatSubstate
 		updateScore();
 		cachePopUpScore();
 
-		#if TOUCH_CONTROLS_ALLOWED
 		#if !android
 		addTouchPad('NONE', 'P');
 		addTouchPadCamera(false);
@@ -172,11 +171,8 @@ class EditorPlayState extends MusicBeatSubstate
 	}
 
 	override function update(elapsed:Float)
-	{	#if TOUCH_CONTROLS_ALLOWED
+	{
 		if(#if android FlxG.android.justReleased.BACK #else touchPad.buttonP.justPressed #end || controls.BACK || FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.F12)
-		#else
-		if(#if android FlxG.android.justReleased.BACK || #end controls.BACK || FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.F12)
-		#end
 		{
 			mobileControls.instance.visible = false;
 			endSong();

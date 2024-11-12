@@ -677,7 +677,7 @@ class PlayState extends MusicBeatState
 		var splash:SustainSplash = new SustainSplash();
 		splash.alpha = 0.0001;
 
-		#if (!android && TOUCH_CONTROLS_ALLOWED)
+		#if !android
 		addTouchPad('NONE', 'P');
 		addTouchPadCamera();
 		#end
