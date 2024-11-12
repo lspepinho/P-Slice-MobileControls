@@ -268,7 +268,7 @@ class Controls
 		return requestedInstance.hitbox;
 	}
 
-	#end
+	
 
 	@:noCompletion
 	private function get_requestedInstance():Dynamic
