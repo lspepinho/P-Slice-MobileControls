@@ -6,7 +6,6 @@ import backend.Rating;
 import objects.Note;
 import objects.NoteSplash;
 import objects.StrumNote;
-import objects.SustainSplash;
 
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
@@ -36,7 +35,6 @@ class EditorPlayState extends MusicBeatSubstate
 	var opponentStrums:FlxTypedGroup<StrumNote>;
 	var playerStrums:FlxTypedGroup<StrumNote>;
 	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
-	var grpHoldSplashes:FlxTypedGroup<SustainSplash>;
 	
 	var combo:Int = 0;
 	var lastRating:FlxSprite;
@@ -106,19 +104,12 @@ class EditorPlayState extends MusicBeatSubstate
 		add(comboGroup);
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
-		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>(8);
 		add(grpNoteSplashes);
-		grpHoldSplashes = new FlxTypedGroup<SustainSplash>();
-		add(grpHoldSplashes);
 		
 		var splash:NoteSplash = new NoteSplash();
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
-
-		SustainSplash.startCrochet = Conductor.stepCrochet;
-		SustainSplash.frameRate = Math.floor(24 / 100 * PlayState.SONG.bpm);
-		var holdSplash:SustainSplash = new SustainSplash();
-		holdSplash.alpha = 0.0001;
 
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
@@ -166,7 +157,6 @@ class EditorPlayState extends MusicBeatSubstate
 		updateScore();
 		cachePopUpScore();
 
-		#if TOUCH_CONTROLS_ALLOWED
 		#if !android
 		addTouchPad('NONE', 'P');
 		addTouchPadCamera(false);
@@ -181,11 +171,8 @@ class EditorPlayState extends MusicBeatSubstate
 	}
 
 	override function update(elapsed:Float)
-	{	#if TOUCH_CONTROLS_ALLOWED
+	{
 		if(#if android FlxG.android.justReleased.BACK #else touchPad.buttonP.justPressed #end || controls.BACK || FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.F12)
-		#else
-		if(#if android FlxG.android.justReleased.BACK || #end controls.BACK || FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.F12)
-		#end
 		{
 			mobileControls.instance.visible = false;
 			endSong();
@@ -816,8 +803,6 @@ class EditorPlayState extends MusicBeatSubstate
 		}
 		note.hitByOpponent = true;
 
-		spawnHoldSplashOnNote(note);
-
 		if (!note.isSustainNote)
 			invalidateNote(note);
 	}
@@ -851,11 +836,8 @@ class EditorPlayState extends MusicBeatSubstate
 		if(spr != null) spr.playAnim('confirm', true);
 		vocals.volume = 1;
 
-		spawnHoldSplashOnNote(note);
-
 		if (!note.isSustainNote)
 			invalidateNote(note);
-		updateScore();
 	}
 	
 	function noteMiss(daNote:Note):Void { //You didn't hit the key and let it go offscreen, also used by Hurt Notes
@@ -908,25 +890,6 @@ class EditorPlayState extends MusicBeatSubstate
 	public function invalidateNote(note:Note):Void {
 		notes.remove(note, true);
 		note.destroy();
-	}
-
-	public function spawnHoldSplashOnNote(note:Note) {
-		if (ClientPrefs.data.holdSplashAlpha <= 0)
-			return;
-
-		if (note != null) {
-			var strum:StrumNote = (note.mustPress ? playerStrums : opponentStrums).members[note.noteData];
-
-			if(strum != null && note.tail.length != 0)
-				spawnHoldSplash(note);
-		}
-	}
-
-	public function spawnHoldSplash(note:Note) {
-		var end:Note = note.isSustainNote ? note.parent.tail[note.parent.tail.length - 1] : note.tail[note.tail.length - 1];
-		var splash:SustainSplash = grpHoldSplashes.recycle(SustainSplash);
-		splash.setupSusSplash((note.mustPress ? playerStrums : opponentStrums).members[note.noteData], note, playbackRate);
-		grpHoldSplashes.add(end.noteHoldSplash = splash);
 	}
 
 	function spawnNoteSplashOnNote(note:Note) {

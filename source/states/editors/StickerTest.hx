@@ -2,11 +2,6 @@ package states.editors;
 
 import mikolka.compatibility.ModsHelper;
 import substates.StickerSubState;
-#if !LEGACY_PSYCH
-import states.editors.MasterEditorMenu;
-#else
-import editors.MasterEditorMenu;
-#end
 
 class StickerTest extends MusicBeatState {
     private var stickerSet:String;
@@ -42,9 +37,6 @@ class StickerTest extends MusicBeatState {
         BG.updateHitbox();
         add(BG);
         addEditorBox();
-        #if TOUCH_CONTROLS_ALLOWED
-        addTouchPad('NONE','B');
-        #end
         super.create();
     }
     var UI_box:PsychUIBox;
@@ -81,13 +73,7 @@ class StickerTest extends MusicBeatState {
         if(PsychUIInputText.focusOn == null)
             {
                 ClientPrefs.toggleVolumeKeys(true);
-                var b_tapped = false;
-                
-                #if TOUCH_CONTROLS_ALLOWED
-                b_tapped = touchPad.buttonB.justPressed;
-                #end
-
-                if(FlxG.keys.justPressed.ESCAPE || b_tapped){
+                if(FlxG.keys.justPressed.ESCAPE){
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     FlxG.mouse.visible = false;
                     MusicBeatState.startTransition(new MasterEditorMenu());
