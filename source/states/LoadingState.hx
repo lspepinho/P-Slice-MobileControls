@@ -9,7 +9,7 @@ import flixel.graphics.FlxGraphic;
 import flixel.system.FlxAssets;
 import flixel.FlxState;
 
-
+import flash.media.Sound;
 
 import backend.Song;
 import backend.StageData;
