@@ -273,9 +273,7 @@ class PlayState extends MusicBeatState
 
 	public static var nextReloadAll:Bool = false;
 
-	#if TOUCH_CONTROLS_ALLOWED
 	public var luaTouchPad:TouchPad;
-	#end
 
 	override public function create()
 	{
@@ -3938,7 +3936,6 @@ class PlayState extends MusicBeatState
 	}
 	#end
 
-	#if TOUCH_CONTROLS_ALLOWED
 	public function makeLuaTouchPad(DPadMode:String, ActionMode:String) {
 		if(members.contains(luaTouchPad)) return;
 
@@ -4017,21 +4014,4 @@ class PlayState extends MusicBeatState
 		}
 		return false;
 	}
-
-	public function luaTouchPadReleased(button:Dynamic):Bool {
-		if(luaTouchPad != null) {
-			if(Std.isOfType(button, String))
-				return luaTouchPad.buttonJustReleased(MobileInputID.fromString(button));
-			else if(Std.isOfType(button, Array)){
-				var FUCK:Array<String> = button;
-				var idArray:Array<MobileInputID> = [];
-				for(strId in FUCK)
-					idArray.push(MobileInputID.fromString(strId));
-				return luaTouchPad.anyReleased(idArray);
-			} else
-				return false;
-		}
-		return false;
-	}
-	#end
 }
