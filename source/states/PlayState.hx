@@ -3939,7 +3939,7 @@ class PlayState extends MusicBeatState
 	}
 	#end
 
-	#if TOUCH_CONTROLS_ALLOWED
+
 	public function makeLuaTouchPad(DPadMode:String, ActionMode:String) {
 		if(members.contains(luaTouchPad)) return;
 
