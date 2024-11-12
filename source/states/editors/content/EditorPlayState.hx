@@ -162,7 +162,7 @@ class EditorPlayState extends MusicBeatSubstate
 		addTouchPad('NONE', 'P');
 		addTouchPadCamera(false);
 		#end
-		#end
+
 		addMobileControls(false);
 		mobileControls.instance.visible = true;
 
