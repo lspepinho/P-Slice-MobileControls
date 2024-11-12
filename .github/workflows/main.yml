@@ -49,6 +49,7 @@ jobs:
     name: ${{ matrix.name }}
     strategy:
       matrix:
+        fail-fast: false
         include:
           - name: Android
             os: macos-14
