@@ -1875,4 +1875,3 @@ class FunkinLua {
 	}
 }
 #end
-#end
