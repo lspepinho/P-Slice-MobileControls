@@ -95,7 +95,9 @@ class Controls
 	//Gamepad, Keyboard & Mobile stuff
 	public var keyboardBinds:Map<String, Array<FlxKey>>;
 	public var gamepadBinds:Map<String, Array<FlxGamepadInputID>>;
+	#if TOUCH_CONTROLS_ALLOWED
 	public var mobileBinds:Map<String, Array<MobileInputID>>;
+	#end
 	public function justPressed(key:String)
 	{
 		var result:Bool = (FlxG.keys.anyJustPressed(keyboardBinds[key]) == true);
@@ -176,6 +178,7 @@ class Controls
 		return false;
 	}
 
+	public var mobileC(get, never):Bool;
 	public var isInSubstate:Bool = false; // don't worry about this it becomes true and false on it's own in MusicBeatSubstate
 	public var requestedInstance(get, default):Dynamic; // is set to MusicBeatState or MusicBeatSubstate when the constructor is called
 	public var requestedMobileC(get, default):IMobileControls; // for PlayState and EditorPlayState (hitbox and touchPad)
@@ -260,6 +263,14 @@ class Controls
 	}
 
 	@:noCompletion
+	private function get_requestedHitbox():Hitbox
+	{
+		return requestedInstance.hitbox;
+	}
+
+	#end
+
+	@:noCompletion
 	private function get_requestedInstance():Dynamic
 	{
 		if (isInSubstate)
@@ -268,19 +279,19 @@ class Controls
 			return MusicBeatState.getState();
 	}
 
-	@:noCompletion
-	private function get_requestedMobileC():IMobileControls
-	{
-		return requestedInstance.mobileControls;
-	}
+	
 
 	@:noCompletion
 	private function get_mobileC():Bool
 	{
+		#if TOUCH_CONTROLS_ALLOWED
 		if (ClientPrefs.data.controlsAlpha >= 0.1)
 			return true;
 		else
 			return false;
+		#else
+		return false;
+		#end
 	}
 
 	// IGNORE THESE/ karim: no.
@@ -289,6 +300,8 @@ class Controls
 	{
 		keyboardBinds = ClientPrefs.keyBinds;
 		gamepadBinds = ClientPrefs.gamepadBinds;
+		#if TOUCH_CONTROLS_ALLOWED
 		mobileBinds = ClientPrefs.mobileBinds;
+		#end
 	}
 }
