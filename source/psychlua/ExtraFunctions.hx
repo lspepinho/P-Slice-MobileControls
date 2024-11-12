@@ -61,6 +61,7 @@ class ExtraFunctions
 						if (MusicBeatState.getState().mobileControls != null)
 							mobileShit = MusicBeatState.getState().mobileControls.buttonExtra.justReleased;
 					return space || mobileShit;
+#end
 					
 
 				default:
