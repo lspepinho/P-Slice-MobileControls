@@ -1874,5 +1874,4 @@ class FunkinLua {
 		return false;
 	}
 }
-}
 #end
