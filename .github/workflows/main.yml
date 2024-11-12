@@ -12,6 +12,7 @@ jobs:
     name: ${{ matrix.name }}
     strategy:
       matrix:
+        fail-fast: false
         include:
           - name: Windows
             os: windows-2022
@@ -49,6 +50,7 @@ jobs:
     name: ${{ matrix.name }}
     strategy:
       matrix:
+        fail-fast: false
         include:
           - name: Android
             os: macos-14
