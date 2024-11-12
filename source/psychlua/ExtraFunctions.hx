@@ -43,7 +43,6 @@ class ExtraFunctions
 						if (MusicBeatState.getState().mobileControls != null)
 							mobileShit = MusicBeatState.getState().mobileControls.buttonExtra.pressed;
 					return space || mobileShit;
-					#end
 
 				default:
 					return Reflect.getProperty(FlxG.keys.pressed, name.toUpperCase());
@@ -61,7 +60,7 @@ class ExtraFunctions
 						if (MusicBeatState.getState().mobileControls != null)
 							mobileShit = MusicBeatState.getState().mobileControls.buttonExtra.justReleased;
 					return space || mobileShit;
-					
+					#end
 
 				default:
 					return Reflect.getProperty(FlxG.keys.justReleased, name.toUpperCase());
