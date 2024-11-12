@@ -1573,6 +1573,8 @@ class FunkinLua {
 		DeprecatedFunctions.implement(this);
 		#if TOUCH_CONTROLS_ALLOWED
 		MobileFunctions.implement(this);
+		MobileDeprecatedFunctions.implement(this);
+		#end
 		#if android AndroidFunctions.implement(this); #end
 
 		for (name => func in customFunctions)
@@ -1874,5 +1876,4 @@ class FunkinLua {
 		return false;
 	}
 }
-
 #end
